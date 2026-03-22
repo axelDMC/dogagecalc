@@ -5,6 +5,7 @@ export const SITE = {
   url: "https://example.com",
   description: "[PROJECT_DESCRIPTION]",
   tagline: "[PROJECT_TAGLINE]",
+  googleVerification: "",
 } as const;
 
 export interface Tool {

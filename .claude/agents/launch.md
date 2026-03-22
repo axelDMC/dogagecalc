@@ -1,12 +1,22 @@
+notepad $HOME\\.claude\\agents\\launch.md
+
+```
+
+
+
+Borra todo y pega esto:
+
+```
+
 \---
 
 name: launch
 
 description: Deploy and distribute a micro-SaaS project. Creates GitHub repo if needed,
 
-&#x20; pushes code, sets up GitHub Actions deploy, generates X post, Reddit post, HN title,
+&#x20; pushes code, sets Cloudflare secrets, generates X post, Reddit post, HN title,
 
-&#x20; Excel updates, and next-day plan. Use after /qa passes. Say "launch" or "deploy".
+&#x20; and next-day plan. Use after /qa passes. Say "launch" or "deploy".
 
 tools: \[Read, Write, Bash, Glob, Grep]
 
@@ -28,7 +38,7 @@ Read CLAUDE.md to get: Project Goal, niche, keyword, differentiator
 
 Get the current directory name as the project name.
 
-Count existing deployed projects from the Projects CSV/Excel to determine Day number.
+Read C:\\Users\\axel1\\projects\\FACTORY-LOG.md to count deployed projects and determine Day number.
 
 
 
@@ -38,59 +48,37 @@ Check if the project already has a remote:
 
 ```bash
 
-git remote -v 2>\\\&1
+git remote -v 2>\&1
 
 ```
 
 
 
-\### If NO remote exists:
-
-1\. Initialize git if needed:
+If remote points to micro-saas-template, remove it first:
 
 ```bash
 
-git init 2>/dev/null
+git remote remove origin
+
+```
+
+
+
+If NO remote exists or was just removed:
+
+```bash
 
 git add .
 
 git commit -m "MVP v1" 2>/dev/null || true
 
-```
-
-
-
-2\. Create GitHub repo:
-
-```bash
-
-gh repo create axelDMC/\\\[project-name] --private --source=. --push 2>\\\&1
+gh repo create axelDMC/\[project-name] --private --source=. --push
 
 ```
 
 
 
-If `gh` is not available, give manual steps:
-
-```
-
-MANUAL STEPS:
-
-1\\. Go to https://github.com/new → name: \\\[project-name], private, no README
-
-2\\. Then run:
-
-\&#x20;  git remote add origin https://github.com/axelDMC/\\\[project-name].git
-
-\&#x20;  git branch -M main
-
-\&#x20;  git push -u origin main
-
-```
-
-
-
-\### If remote ALREADY exists:
+If remote ALREADY exists and points to the correct repo:
 
 ```bash
 
@@ -98,68 +86,27 @@ git add .
 
 git commit -m "MVP v1 - ready for deploy" 2>/dev/null || true
 
-git push 2>\\\&1
+git push
 
 ```
 
 
 
-\## Step 3: GitHub Actions Deploy Setup
+\## Step 3: Set Cloudflare Secrets
 
-After successful push, set Cloudflare secrets (only first time per repo):
+Always run these after creating the repo:
 
 ```bash
 
 gh secret set CLOUDFLARE\_API\_TOKEN --body "cfut\_41B6JdIPmdG2dxpvB0VDyTkO43QchUorflVKnfLAed1770dd" --repo axelDMC/\[project-name]
 
 gh secret set CLOUDFLARE\_ACCOUNT\_ID --body "7e36822d48f79c4751a0a6b351d1b00e" --repo axelDMC/\[project-name]
-```
-
-
-
-Verify .github/workflows/deploy.yml exists in the project. If not, create it:
-
-```yaml
-
-name: Deploy
-
-on:
-
-\&#x20; push:
-
-\&#x20;   branches: \\\[main]
-
-jobs:
-
-\&#x20; deploy:
-
-\&#x20;   runs-on: ubuntu-latest
-
-\&#x20;   env:
-
-\&#x20;     CLOUDFLARE\\\_API\\\_TOKEN: ${{ secrets.CLOUDFLARE\\\_API\\\_TOKEN }}
-
-\&#x20;     CLOUDFLARE\\\_ACCOUNT\\\_ID: ${{ secrets.CLOUDFLARE\\\_ACCOUNT\\\_ID }}
-
-\&#x20;   steps:
-
-\&#x20;     - uses: actions/checkout@v4
-
-\&#x20;     - uses: pnpm/action-setup@v4
-
-\&#x20;     - uses: actions/setup-node@v4
-
-\&#x20;       with:
-
-\&#x20;         node-version: 22
-
-\&#x20;     - run: pnpm install
-
-\&#x20;     - run: npx opennextjs-cloudflare build
-
-\&#x20;     - run: npx opennextjs-cloudflare deploy
 
 ```
+
+
+
+Verify .github/workflows/deploy.yml exists. If not, create it with the standard GitHub Actions workflow.
 
 
 
@@ -167,56 +114,51 @@ Then show:
 
 ```
 
-✅ Code pushed to GitHub
+Deployed!
 
-✅ GitHub Actions will build and deploy automatically
+GitHub: github.com/axelDMC/\[project-name]
 
+Actions: github.com/axelDMC/\[project-name]/actions
 
+URL: \[project-name].adcmartinez1.workers.dev
 
-Deploy status: https://github.com/axelDMC/\\\[project-name]/actions
-
-Live URL: https://\\\[project-name].adcmartinez1.workers.dev
-
-
-
-Secrets are configured automatically per repo.
 ```
 
 
 
 \## Step 4: X Post (Build in Public)
 
-Generate a daily build post:
+Generate the post in this EXACT format:
 
 ```
 
-Day \\\[N]: Built \\\[tool name].
+Day \[N]: Built \[tool name].
 
-Problem: \\\[1 line — what real problem it solves]
+Problem: \[1 specific line about the pain point]
 
-Time: \\\~3h
+\[1 line describing what the tool does — concrete, not vague]
 
-Stack: Next.js + Cloudflare Workers
-
-100% free, no signup.
+100% browser-based, nothing uploaded. No signup.
 
 
 
-\\\[URL]
+\[URL]
 
 ```
+
+
 
 Rules for X post:
 
-\- Keep under 280 chars
+\- MUST be under 280 characters
 
 \- No emojis except max 1
 
-\- No hype, no revenue promises, no "🚀 excited to announce"
+\- No hype words: no "excited", "amazing", "game-changer", "revolutionize"
 
-\- Tone: developer documenting what they built today. Factual, concise.
+\- No revenue promises or follower bait
 
-\- If Day 1, use "Day 1". Otherwise count deployed projects for correct day number.
+\- Tone: developer documenting what they built today. Dry, factual, concise.
 
 \- URL format: https://\[name].adcmartinez1.workers.dev
 
@@ -224,33 +166,51 @@ Rules for X post:
 
 \## Step 5: Reddit Post
 
-Suggest the most relevant subreddit.
-
-```
-
-Title: I built a free \\\[tool] because \\\[relatable problem]
+Pick the most relevant subreddit for this niche. Write the post like this:
 
 
 
-\\\[P1 — The problem, first person, relatable]
+Title: I built a free \[tool] because \[specific relatable frustration]
 
 
 
-\\\[P2 — What I built, how it works, differentiator]
+Body (4 paragraphs):
 
 
 
-\\\[P3 — Tech: "Built with Next.js on Cloudflare Workers. Processing
+P1 — The problem. First person. Specific. "Every time I need to post
 
-happens in your browser — nothing leaves your device."]
+on 5 platforms, I spend 15 minutes resizing the same image..." NOT
+
+generic like "social media is hard."
 
 
 
-\\\[P4 — "Would love honest feedback: \\\[URL]. What should I add next?"]
+P2 — What you built. Be concrete: "Drop an image, pick your platforms,
 
-```
+get all sizes instantly. Download as ZIP." Show the user what happens
 
-Tone: dev sharing side project. NOT an ad. NOT promotional.
+step by step.
+
+
+
+P3 — One line about tech: "Built with Next.js on Cloudflare Workers.
+
+Everything runs in your browser — your images never leave your device."
+
+
+
+P4 — Ask for feedback: "Would love honest feedback: \[URL].
+
+What platforms or features am I missing?"
+
+
+
+Tone: developer sharing a side project they actually use. NOT an ad.
+
+If it reads like marketing copy, rewrite it.
+
+
 
 Suggest 2 additional subreddits with adapted titles.
 
@@ -260,33 +220,21 @@ Suggest 2 additional subreddits with adapted titles.
 
 ```
 
-Show HN: \\\[Name] – \\\[1 line description]
+Show HN: \[Name] – \[concrete 1-line description of what it does]
 
 ```
 
 
 
-\## Step 7: Excel Updates
+\## Step 7: Update FACTORY-LOG.md
 
-```
+Update C:\\Users\\axel1\\projects\\FACTORY-LOG.md:
 
-ACTUALIZAR EN EXCEL:
+\- Add row to Active Projects: | \[Day N] | \[Name] | \[url] | Deployed |
 
-━━━━━━━━━━━━━━━━━━
+\- Add rejected ideas from explore step to Rejected Ideas
 
-Hoja "Projects":
-
-\\- Status: Deployed
-
-\\- Deploy URL: \\\[name].adcmartinez1.workers.dev
-
-
-
-Hoja "Idea Backlog":
-
-\\- Marcar idea como "DONE → Project #\\\[X]"
-
-```
+\- Add searched sources to Searched Sources
 
 
 
@@ -294,35 +242,31 @@ Hoja "Idea Backlog":
 
 ```
 
-PLAN DE MAÑANA:
+TOMORROW:
 
-━━━━━━━━━━━━━━
+\- \[ ] Post in r/\[sub2]: "\[adapted title]"
 
-DISTRIBUCIÓN:
+\- \[ ] Post in r/\[sub3]: "\[adapted title]"
 
-\\- \\\[ ] Publicar en r/\\\[sub2]: "\\\[título]"
+\- \[ ] Comment on 1 relevant thread with natural link
 
-\\- \\\[ ] Publicar en r/\\\[sub3]: "\\\[título]"
-
-\\- \\\[ ] Comentar en 1 thread relevante con link natural
-
-\\- \\\[ ] Post en X: Day \\\[N+1] update o thread con métricas
+\- \[ ] X post: Day \[N+1] update with any metrics
 
 
 
 SEO:
 
-\\- \\\[ ] Escribir blog post: "\\\[Título]" (keyword: \\\[target])
+\- \[ ] Blog post: "\[Title]" (keyword: \[target])
 
-\&#x20;     H2: \\\[sección 1] / H2: \\\[sección 2] / H2: \\\[sección 3]
+&#x20;     H2: \[section 1] / H2: \[section 2] / H2: \[section 3]
 
 
 
 TRACKING:
 
-\\- \\\[ ] Verificar indexación en Google Search Console (48h)
+\- \[ ] Check Google Search Console indexation (48h)
 
-\\- \\\[ ] Revisar analytics después de 1 semana
+\- \[ ] Review Cloudflare analytics after 1 week
 
 ```
 
@@ -332,31 +276,29 @@ TRACKING:
 
 ```
 
-🚀 LAUNCH COMPLETE
+LAUNCH COMPLETE
 
-━━━━━━━━━━━━━━━━━━
+Project: \[name]
 
-Proyecto: \\\[name]
+Day: \[N]
 
-GitHub: github.com/axelDMC/\\\[name]
+GitHub: github.com/axelDMC/\[name]
 
-URL: \\\[name].adcmartinez1.workers.dev
+URL: \[name].adcmartinez1.workers.dev
 
-Day: \\\[N]
-
-Status: Deployed ✅
+Status: Deployed
 
 
 
-COPIAR Y PEGAR:
+COPY \& PASTE:
 
-□ X → \\\[full post text]
+\- X post: \[full text]
 
-□ Reddit → r/\\\[sub]
+\- Reddit: r/\[sub] — \[title]
 
-□ HN → \\\[title]
+\- HN: \[title]
 
-□ Excel → status "Deployed"
+\- FACTORY-LOG: updated
 
 ```
 
@@ -364,21 +306,19 @@ COPIAR Y PEGAR:
 
 \## Rules
 
-\- Reddit post: NEVER sound promotional
+\- NEVER push to micro-saas-template repo
 
-\- X post: factual, no hype, build-in-public style
+\- If remote points to micro-saas-template, remove it and create new repo
 
-\- Always check if gh CLI exists before using it
+\- Reddit post: must sound like a real dev, NEVER like marketing
 
-\- If git push fails, show the error and suggest fixes
+\- X post: dry, factual, no hype
 
-\- Don't invent metrics or false claims
+\- Deploy URL is .adcmartinez1.workers.dev NOT .pages.dev
 
-\- Tomorrow's plan must be specific and actionable
+\- Always set Cloudflare secrets automatically with gh secret set
 
-\- Deploy URL is .adcmartinez1.workers.dev, NOT .pages.dev
+\- Always update FACTORY-LOG.md at the end
 
-\- Deploy method is GitHub Actions, NOT Cloudflare Pages dashboard
-
-\- Secrets are PER REPO — remind user to set them for each new project
+\- If gh CLI fails, show manual steps
 
