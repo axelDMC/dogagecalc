@@ -74,3 +74,9 @@
 - No console.log
 - No code outside src/
 - No tailwind.config.ts (v4 uses CSS)
+
+## Cloudflare Rules
+- wrangler.toml must ONLY have: name, compatibility_date, compatibility_flags
+- NEVER add [build] section to wrangler.toml (Pages handles build from dashboard)
+- NEVER add pages_build_output_dir (not needed with dashboard deploy)
+- NEVER use "export const runtime = 'edge'" in API routes (Cloudflare already runs everything at the edge)
