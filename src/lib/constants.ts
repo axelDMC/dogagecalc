@@ -6,6 +6,8 @@ export const SITE = {
   description: "[PROJECT_DESCRIPTION]",
   tagline: "[PROJECT_TAGLINE]",
   googleVerification: "",
+  socialX: "https://x.com/Axel1863670",
+  socialLinkedIn: "https://linkedin.com/in/axeldmc",
 } as const;
 
 export interface Tool {
