@@ -1,4 +1,4 @@
-name = "nettoolbox"
+name = "[PROJECT_NAME]"
 compatibility_date = "2025-09-15"
 compatibility_flags = ["nodejs_compat"]
 main = ".open-next/worker.js"
