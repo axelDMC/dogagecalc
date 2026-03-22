@@ -38,7 +38,7 @@ Check if the project already has a remote:
 
 ```bash
 
-git remote -v 2>\&1
+git remote -v 2>\\\&1
 
 ```
 
@@ -64,7 +64,7 @@ git commit -m "MVP v1" 2>/dev/null || true
 
 ```bash
 
-gh repo create axelDMC/\[project-name] --private --source=. --push 2>\&1
+gh repo create axelDMC/\\\[project-name] --private --source=. --push 2>\\\&1
 
 ```
 
@@ -76,15 +76,15 @@ If `gh` is not available, give manual steps:
 
 MANUAL STEPS:
 
-1\. Go to https://github.com/new → name: \[project-name], private, no README
+1\\. Go to https://github.com/new → name: \\\[project-name], private, no README
 
-2\. Then run:
+2\\. Then run:
 
-&#x20;  git remote add origin https://github.com/axelDMC/\[project-name].git
+\&#x20;  git remote add origin https://github.com/axelDMC/\\\[project-name].git
 
-&#x20;  git branch -M main
+\&#x20;  git branch -M main
 
-&#x20;  git push -u origin main
+\&#x20;  git push -u origin main
 
 ```
 
@@ -98,7 +98,7 @@ git add .
 
 git commit -m "MVP v1 - ready for deploy" 2>/dev/null || true
 
-git push 2>\&1
+git push 2>\\\&1
 
 ```
 
@@ -110,10 +110,9 @@ After successful push, set Cloudflare secrets (only first time per repo):
 
 ```bash
 
-gh secret set CLOUDFLARE\_API\_TOKEN --body "\[ask user for token]"
+gh secret set CLOUDFLARE\_API\_TOKEN --body "cfut\_41B6JdIPmdG2dxpvB0VDyTkO43QchUorflVKnfLAed1770dd" --repo axelDMC/\[project-name]
 
-gh secret set CLOUDFLARE\_ACCOUNT\_ID --body "7e36822d48f79c4751a0a6b351d1b00e"
-
+gh secret set CLOUDFLARE\_ACCOUNT\_ID --body "7e36822d48f79c4751a0a6b351d1b00e" --repo axelDMC/\[project-name]
 ```
 
 
@@ -126,39 +125,39 @@ name: Deploy
 
 on:
 
-&#x20; push:
+\&#x20; push:
 
-&#x20;   branches: \[main]
+\&#x20;   branches: \\\[main]
 
 jobs:
 
-&#x20; deploy:
+\&#x20; deploy:
 
-&#x20;   runs-on: ubuntu-latest
+\&#x20;   runs-on: ubuntu-latest
 
-&#x20;   env:
+\&#x20;   env:
 
-&#x20;     CLOUDFLARE\_API\_TOKEN: ${{ secrets.CLOUDFLARE\_API\_TOKEN }}
+\&#x20;     CLOUDFLARE\\\_API\\\_TOKEN: ${{ secrets.CLOUDFLARE\\\_API\\\_TOKEN }}
 
-&#x20;     CLOUDFLARE\_ACCOUNT\_ID: ${{ secrets.CLOUDFLARE\_ACCOUNT\_ID }}
+\&#x20;     CLOUDFLARE\\\_ACCOUNT\\\_ID: ${{ secrets.CLOUDFLARE\\\_ACCOUNT\\\_ID }}
 
-&#x20;   steps:
+\&#x20;   steps:
 
-&#x20;     - uses: actions/checkout@v4
+\&#x20;     - uses: actions/checkout@v4
 
-&#x20;     - uses: pnpm/action-setup@v4
+\&#x20;     - uses: pnpm/action-setup@v4
 
-&#x20;     - uses: actions/setup-node@v4
+\&#x20;     - uses: actions/setup-node@v4
 
-&#x20;       with:
+\&#x20;       with:
 
-&#x20;         node-version: 22
+\&#x20;         node-version: 22
 
-&#x20;     - run: pnpm install
+\&#x20;     - run: pnpm install
 
-&#x20;     - run: npx opennextjs-cloudflare build
+\&#x20;     - run: npx opennextjs-cloudflare build
 
-&#x20;     - run: npx opennextjs-cloudflare deploy
+\&#x20;     - run: npx opennextjs-cloudflare deploy
 
 ```
 
@@ -174,18 +173,13 @@ Then show:
 
 
 
-Deploy status: https://github.com/axelDMC/\[project-name]/actions
+Deploy status: https://github.com/axelDMC/\\\[project-name]/actions
 
-Live URL: https://\[project-name].adcmartinez1.workers.dev
+Live URL: https://\\\[project-name].adcmartinez1.workers.dev
 
 
 
-If this is the FIRST project ever, user needs to set the CLOUDFLARE\_API\_TOKEN secret.
-
-If secrets were already set in a previous project, user still needs to set them
-
-for THIS repo (secrets are per-repo).
-
+Secrets are configured automatically per repo.
 ```
 
 
@@ -196,11 +190,11 @@ Generate a daily build post:
 
 ```
 
-Day \[N]: Built \[tool name].
+Day \\\[N]: Built \\\[tool name].
 
-Problem: \[1 line — what real problem it solves]
+Problem: \\\[1 line — what real problem it solves]
 
-Time: \~3h
+Time: \\\~3h
 
 Stack: Next.js + Cloudflare Workers
 
@@ -208,7 +202,7 @@ Stack: Next.js + Cloudflare Workers
 
 
 
-\[URL]
+\\\[URL]
 
 ```
 
@@ -234,25 +228,25 @@ Suggest the most relevant subreddit.
 
 ```
 
-Title: I built a free \[tool] because \[relatable problem]
+Title: I built a free \\\[tool] because \\\[relatable problem]
 
 
 
-\[P1 — The problem, first person, relatable]
+\\\[P1 — The problem, first person, relatable]
 
 
 
-\[P2 — What I built, how it works, differentiator]
+\\\[P2 — What I built, how it works, differentiator]
 
 
 
-\[P3 — Tech: "Built with Next.js on Cloudflare Workers. Processing
+\\\[P3 — Tech: "Built with Next.js on Cloudflare Workers. Processing
 
 happens in your browser — nothing leaves your device."]
 
 
 
-\[P4 — "Would love honest feedback: \[URL]. What should I add next?"]
+\\\[P4 — "Would love honest feedback: \\\[URL]. What should I add next?"]
 
 ```
 
@@ -266,7 +260,7 @@ Suggest 2 additional subreddits with adapted titles.
 
 ```
 
-Show HN: \[Name] – \[1 line description]
+Show HN: \\\[Name] – \\\[1 line description]
 
 ```
 
@@ -282,15 +276,15 @@ ACTUALIZAR EN EXCEL:
 
 Hoja "Projects":
 
-\- Status: Deployed
+\\- Status: Deployed
 
-\- Deploy URL: \[name].adcmartinez1.workers.dev
+\\- Deploy URL: \\\[name].adcmartinez1.workers.dev
 
 
 
 Hoja "Idea Backlog":
 
-\- Marcar idea como "DONE → Project #\[X]"
+\\- Marcar idea como "DONE → Project #\\\[X]"
 
 ```
 
@@ -306,29 +300,29 @@ PLAN DE MAÑANA:
 
 DISTRIBUCIÓN:
 
-\- \[ ] Publicar en r/\[sub2]: "\[título]"
+\\- \\\[ ] Publicar en r/\\\[sub2]: "\\\[título]"
 
-\- \[ ] Publicar en r/\[sub3]: "\[título]"
+\\- \\\[ ] Publicar en r/\\\[sub3]: "\\\[título]"
 
-\- \[ ] Comentar en 1 thread relevante con link natural
+\\- \\\[ ] Comentar en 1 thread relevante con link natural
 
-\- \[ ] Post en X: Day \[N+1] update o thread con métricas
+\\- \\\[ ] Post en X: Day \\\[N+1] update o thread con métricas
 
 
 
 SEO:
 
-\- \[ ] Escribir blog post: "\[Título]" (keyword: \[target])
+\\- \\\[ ] Escribir blog post: "\\\[Título]" (keyword: \\\[target])
 
-&#x20;     H2: \[sección 1] / H2: \[sección 2] / H2: \[sección 3]
+\&#x20;     H2: \\\[sección 1] / H2: \\\[sección 2] / H2: \\\[sección 3]
 
 
 
 TRACKING:
 
-\- \[ ] Verificar indexación en Google Search Console (48h)
+\\- \\\[ ] Verificar indexación en Google Search Console (48h)
 
-\- \[ ] Revisar analytics después de 1 semana
+\\- \\\[ ] Revisar analytics después de 1 semana
 
 ```
 
@@ -342,13 +336,13 @@ TRACKING:
 
 ━━━━━━━━━━━━━━━━━━
 
-Proyecto: \[name]
+Proyecto: \\\[name]
 
-GitHub: github.com/axelDMC/\[name]
+GitHub: github.com/axelDMC/\\\[name]
 
-URL: \[name].adcmartinez1.workers.dev
+URL: \\\[name].adcmartinez1.workers.dev
 
-Day: \[N]
+Day: \\\[N]
 
 Status: Deployed ✅
 
@@ -356,11 +350,11 @@ Status: Deployed ✅
 
 COPIAR Y PEGAR:
 
-□ X → \[full post text]
+□ X → \\\[full post text]
 
-□ Reddit → r/\[sub]
+□ Reddit → r/\\\[sub]
 
-□ HN → \[title]
+□ HN → \\\[title]
 
 □ Excel → status "Deployed"
 

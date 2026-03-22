@@ -13,7 +13,7 @@ creating only the new tool-specific code.
 ## Step 1: Setup Project
 
 ```bash
-cd C:\\Users\\axel1\\projects
+cd C:\\\\Users\\\\axel1\\\\projects
 git clone https://github.com/axelDMC/micro-saas-template.git $ARGUMENTS
 cd $ARGUMENTS
 
@@ -24,7 +24,19 @@ Remove-Item -Recurse -Force .git
 git init
 
 ```
+
+Remove template remote to prevent accidental pushes:
+
+```bash
+
+git remote remove origin 2>/dev/null
+
+```
+
+```
+
 pnpm install
+
 ```
 
 If the directory already exists, just cd into it and run pnpm install.
