@@ -5,7 +5,7 @@ export const SITE = {
   url: "https://example.com",
   description: "[PROJECT_DESCRIPTION]",
   tagline: "[PROJECT_TAGLINE]",
-  googleVerification: "",
+  googleVerification: "q04eVe2wFeyQl_Bl2_z9kB4VHp2VeKXxJ23w5wiVRhU",
   socialX: "https://x.com/Axel1863670",
   socialLinkedIn: "https://linkedin.com/in/axeldmc",
 } as const;

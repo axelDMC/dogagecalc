@@ -124,6 +124,32 @@ URL: \[project-name].adcmartinez1.workers.dev
 
 ```
 
+## Step 3.5: Google Search Console
+After deploy completes and the site is live, do this:
+
+1. Tell the user:
+```
+GOOGLE SEARCH CONSOLE:
+Go to this link and paste the code it gives you:
+https://search.google.com/search-console/welcome?resource_id=url-prefix/https://[project-name].adcmartinez1.workers.dev
+
+Steps:
+1. Click "URL prefix" if asked
+2. Click "HTML tag" verification method
+3. Copy ONLY the content value (the long code between quotes)
+4. Paste it here
+```
+
+2. WAIT for the user to paste the verification code.
+
+3. Once the user provides the code:
+   - Open src/lib/constants.ts
+   - Set SITE.googleVerification = "[user's code]"
+   - git add .
+   - git commit -m "add google search console verification"
+   - git push
+
+4. Tell the user: "Push done. Go back to Search Console and click Verify."
 
 
 \## Step 4: X Post (Build in Public)
