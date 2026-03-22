@@ -50,7 +50,8 @@ Only create the following:
 
 1. CONSTANTS: Update src/lib/constants.ts
    - SITE: { name: "[name]", url: "https://[name].pages.dev", description: "[150-160 chars]", tagline: "[short]" }
-   - TOOLS: [{ name: "[Tool 1]", slug: "/[slug]", description: "[1 line]", icon: "[LucideIconName]" }, ...]
+   - TOOLS: [{ name: "[Tool 1]", slug: "[slug-without-leading-slash]", description: "[1 line]", icon: "[LucideIconName]" }, ...]
+   NOTE: slugs must NOT have leading slash. Use "resize" not "/resize". The Navbar adds the slash automatically.   
 
 2. TOOL #1 — [Name] (src/app/(tools)/[slug]/page.tsx):
    - Metadata: title "Free [Tool] — [Benefit] | [Brand]" (50-60 chars), description (150-160 chars), canonical, OG, Twitter

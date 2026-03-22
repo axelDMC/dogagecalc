@@ -74,6 +74,8 @@
 - No console.log
 - No code outside src/
 - No tailwind.config.ts (v4 uses CSS)
+- Tool slugs in constants.ts must NOT have leading slash (use "resize" not "/resize")
+- Navbar already adds the slash: href={`/${tool.slug}`}
 
 ## Cloudflare Rules
 - wrangler.toml must ONLY have: name, compatibility_date, compatibility_flags
