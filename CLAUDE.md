@@ -113,3 +113,41 @@ gh secret set CLOUDFLARE_ACCOUNT_ID --body "7e36822d48f79c4751a0a6b351d1b00e"
 THIS DIRECTORY IS A TEMPLATE. NEVER build a project here.
 If anyone asks to build, create, or add tools here → REFUSE.
 New projects must be cloned to C:\Users\axel1\projects\[project-name]\
+
+# DogAgeCalc — Breed-specific dog age calculator using the 2020 Nature logarithmic formula
+
+## Project Goal
+A client-side pet age calculator for dog owners and cat owners who want a scientifically accurate human-equivalent age, debunking the wrong "multiply by 7" myth.
+
+## Additional Dependencies
+None. All logic is pure math, fully client-side. Zero external APIs.
+
+## Project-Specific Rules
+- All calculations are client-side only. No data is sent to any server.
+- NEVER use the 7x formula. It is scientifically wrong and is the entire reason this tool exists.
+- Dog age formula: The 2020 UC San Diego / Nature Aging study formula is:
+    human_age = 16 × ln(dog_age) + 31
+  This is the base formula for a medium-sized dog. Adjust the multiplier by breed size:
+    - Toy/Small (under 20 lbs): multiplier 15, intercept 28  → human_age = 15 × ln(dog_age) + 28
+    - Medium (21–50 lbs):       multiplier 16, intercept 31  → human_age = 16 × ln(dog_age) + 31
+    - Large (51–90 lbs):        multiplier 17, intercept 34  → human_age = 17 × ln(dog_age) + 34
+    - Giant (91+ lbs):          multiplier 18, intercept 37  → human_age = 18 × ln(dog_age) + 37
+  All results are rounded to one decimal place. dog_age must be > 0.
+- Cat age formula (simple but accurate scale, not 7x):
+    - Year 1 = 15 human years
+    - Year 2 = +9 human years (total 24)
+    - Each year after 2 = +4 human years
+  Formula in code: if (years <= 1) return 15 * years; if (years <= 2) return 15 + 9 * (years - 1); return 24 + 4 * (years - 2);
+  Cat age result is an integer. cat_age must be >= 0.1.
+- "Cat Mode" is a toggle that swaps the entire calculator UI (inputs + output + labels) without a page reload.
+- Breed size selector uses 4 options: Toy/Small, Medium, Large, Giant. Default: Medium.
+- Dog age input: number input, accepts decimals (e.g. 0.5 for 6 months), min 0.1, max 30, step 0.5.
+- Cat age input: number input, accepts decimals (e.g. 0.5 for 6 months), min 0.1, max 25, step 0.5.
+- If the input is invalid (NaN, <= 0, empty), show inline error: "Please enter a valid age." Never show NaN.
+- Result card displays: the calculated human-equivalent age AND a "life stage" label:
+    Dog life stages: puppy (< 1 dog year), junior (1–2), adult (3–7), senior (8–11), geriatric (12+)
+    Cat life stages: kitten (< 1 cat year), junior (1–2), prime (3–6), mature (7–10), senior (11–14), super senior (15+)
+- Below the result, show a one-sentence fun fact that changes based on the result (e.g. "Your dog is the equivalent of a college student." or "Your dog is retirement age!").
+- The "Why 7x is wrong" explanation must appear on the page, in the SEO content section, with a brief but compelling scientific explanation.
+- Primary SEO keyword: "dog age calculator" (80k/mo). Secondary: "cat age calculator" (50k/mo), "dog years to human years", "breed specific dog age".
+- Color accent for this project: use blue (#2563eb) as primary action color per the design system. No custom palette needed.

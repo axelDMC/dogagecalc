@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Zap, Shield, Heart } from "lucide-react";
+import { PawPrint, Ruler, Cat } from "lucide-react";
 import { SITE, TOOLS } from "@/lib/constants";
 import { ToolCard } from "@/components/ui/ToolCard";
 
@@ -49,7 +49,7 @@ export default function HomePage() {
             Free tools, no signup required
           </div>
 
-          <h1 style={{ marginBottom: "20px" }}>[HEADLINE]</h1>
+          <h1 style={{ marginBottom: "20px" }}>Your Pet&apos;s Age, Finally Accurate.</h1>
 
           <p
             style={{
@@ -60,7 +60,7 @@ export default function HomePage() {
               lineHeight: 1.7,
             }}
           >
-            [SUBTITLE]
+            Stop using the wrong formula. Get your dog&apos;s or cat&apos;s true human-equivalent age — powered by peer-reviewed science.
           </p>
 
           {TOOLS.length > 0 && (
@@ -73,22 +73,11 @@ export default function HomePage() {
                 padding: "12px 24px",
                 borderRadius: "12px",
                 background: "var(--accent)",
-                color: "#000",
+                color: "var(--accent-text)",
                 fontWeight: 600,
                 fontSize: "15px",
                 textDecoration: "none",
                 transition: "all 200ms ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.filter =
-                  "brightness(1.1)";
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-1px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.filter = "brightness(1)";
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(0)";
               }}
             >
               Get started free →
@@ -177,8 +166,7 @@ export default function HomePage() {
               maxWidth: "560px",
             }}
           >
-            Built for speed, privacy, and simplicity. No accounts, no
-            subscriptions, no nonsense.
+            Built for pet owners who want answers based on real science, not the wrong 7x myth.
           </p>
 
           <div
@@ -190,19 +178,19 @@ export default function HomePage() {
           >
             {[
               {
-                icon: Zap,
-                title: "Fast",
-                desc: "Instant results. No waiting, no loading screens. Everything runs in your browser.",
+                icon: PawPrint,
+                title: "Science-Backed Formula",
+                desc: "Uses the 2020 Nature Aging logarithmic formula — not the outdated 7x rule that's been misleading pet owners for decades.",
               },
               {
-                icon: Shield,
-                title: "Private",
-                desc: "Your data stays in your browser. We never store, process, or transmit your files.",
+                icon: Ruler,
+                title: "Breed-Size Aware",
+                desc: "Large breeds age faster. Small breeds live longer. Our calculator adjusts for your dog's size for a more accurate result.",
               },
               {
-                icon: Heart,
-                title: "Free",
-                desc: "No signup, no limits, no credit card. Every tool is completely free forever.",
+                icon: Cat,
+                title: "Cat Mode Included",
+                desc: "Switch to cat mode for an accurate feline age conversion using the AAFP-aligned life stage scale.",
               },
             ].map(({ icon: Icon, title, desc }) => (
               <div

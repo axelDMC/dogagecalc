@@ -62,7 +62,7 @@ export default function AboutPage() {
               marginBottom: "24px",
             }}
           >
-            [PROJECT_ABOUT_PARAGRAPH_2]
+            DogAgeCalc exists to debunk a myth that has misled pet owners for decades. The "multiply by 7" rule is scientifically inaccurate and doesn't reflect how dogs actually age. In 2020, researchers at UC San Diego used DNA methylation patterns to map the true relationship between dog aging and human aging — and the results were groundbreaking. Dogs don't age linearly. They age rapidly in their first two years, then slow down considerably. Breed size matters too: large breeds age faster and live shorter lives than small breeds. A 10-year-old Chihuahua is not the same biological age as a 10-year-old Great Dane.
           </p>
           <p
             style={{
@@ -71,7 +71,7 @@ export default function AboutPage() {
               marginBottom: "48px",
             }}
           >
-            [PROJECT_ABOUT_PARAGRAPH_3]
+            This calculator uses the accurate logarithmic formula from peer-reviewed research, adjusted for your dog's breed size. We've also included a cat mode, because cats deserve the same level of accuracy. All calculations run in your browser — nothing is sent to our servers, and your data is never stored. Just open the tool, enter your pet's age, and get the real answer.
           </p>
 
           {/* Privacy section */}

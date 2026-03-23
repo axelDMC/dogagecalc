@@ -19,6 +19,7 @@
   --color-warning: #fbbf24;
   --color-danger: #f87171;
   --color-success: #34d399;
+  --color-accent-text: #000;
 
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
@@ -40,6 +41,7 @@
   --warning: #fbbf24;
   --danger: #f87171;
   --success: #34d399;
+  --accent-text: #fff;
 }
 
 .light {
@@ -54,6 +56,7 @@
   --accent: #059669;
   --accent-hover: #047857;
   --accent-muted: rgba(5, 150, 105, 0.1);
+  --accent-text: #fff;
 }
 
 *,
