@@ -130,14 +130,11 @@ After deploy completes and the site is live, do this:
 1. Tell the user:
 ```
 GOOGLE SEARCH CONSOLE:
-Go to this link and paste the code it gives you:
-https://search.google.com/search-console/welcome?resource_id=url-prefix/https://[project-name].adcmartinez1.workers.dev
-
-Steps:
-1. Click "URL prefix" if asked
-2. Click "HTML tag" verification method
-3. Copy ONLY the content value (the long code between quotes)
-4. Paste it here
+1. Go to: https://search.google.com/search-console/welcome
+2. Under "URL prefix", enter: https://[project-name].adcmartinez1.workers.dev/
+3. Click "HTML tag" verification method
+4. Copy ONLY the content value (the long code between quotes in the meta tag)
+5. Paste it here
 ```
 
 2. WAIT for the user to paste the verification code.

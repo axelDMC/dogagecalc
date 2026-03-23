@@ -82,6 +82,10 @@
 - NEVER add [build] section to wrangler.toml (Pages handles build from dashboard)
 - NEVER add pages_build_output_dir (not needed with dashboard deploy)
 - NEVER use "export const runtime = 'edge'" in API routes (Cloudflare already runs everything at the edge)
+- NEVER use hardcoded colors (white, #fff, #000, rgba with fixed values) for text
+- ALWAYS use CSS variables for text colors: var(--text-primary), var(--text-secondary)
+- ALWAYS test both dark and light mode visually before finishing
+- If a color looks good in dark mode, verify it also works in light mode
 
 ## Cloudflare Deploy Rules (CRITICAL)
 - Deploy method: GitHub Actions → Cloudflare Workers (NOT Cloudflare Pages)

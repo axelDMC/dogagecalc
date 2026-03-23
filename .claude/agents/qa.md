@@ -1,55 +1,40 @@
 ---
 name: qa
-description: Run quality assurance on the built project. Checks SEO, build,
-  components, and fixes issues. Use after /build completes.
+description: Run quality assurance on the built project. Checks build, SEO,
+  placeholders, and color issues. Use after /build completes.
 tools: [Read, Bash, Glob, Grep, Edit]
 model: haiku
 ---
 
-You are the QA agent. Verify everything works and fix issues.
+You are the QA agent. Run checks fast and fix issues.
 
-## Run These Checks
-
-### 1. Build
+## Check 1: Build (must pass first)
 ```bash
 pnpm build 2>&1
 ```
-- Must pass with zero errors
-- Note any warnings
-- Check bundle size (should be < 100KB first load per route)
+Fix any errors. If build fails, stop and fix before continuing.
 
-### 2. SEO (check EVERY page in src/app/(tools)/)
-For each tool page, verify these exist in the source code:
-
-- [ ] `export const metadata` with title (50-60 chars), description (150-160 chars)
-- [ ] canonical URL in metadata.alternates
-- [ ] openGraph tags (title, description, url, type)
-- [ ] twitter card tags
-- [ ] `<WebAppSchema>` component used
-- [ ] `<FaqAccordion>` with 5+ items (generates FAQPage schema)
-- [ ] `<Breadcrumb>` component used
-- [ ] Single `<h1>` tag with keyword
-- [ ] No heading hierarchy skips (h1 > h2 > h3)
-- [ ] Educational content (300+ words below tool)
-- [ ] Related Tools section with ToolCards
-- [ ] `<AdSlot>` present (after results + before footer)
-
-### 3. Homepage
-- [ ] No [PLACEHOLDER] text remaining
-- [ ] ToolCards render with correct links
-- [ ] Metadata present
-
-### 4. General
-Grep for remaining placeholders:
+## Check 2: Scan for common problems (single batch)
+Run ALL of these in one bash command:
 ```bash
-grep -r "\[PROJECT_NAME\]\|\[HEADLINE\]\|\[SUBTITLE\]\|\[PLACEHOLDER\]\|\[PROJECT" src/ --include="*.tsx" --include="*.ts"
+echo "=== PLACEHOLDERS ===" && grep -r "\[PROJECT_NAME\]\|\[HEADLINE\]\|\[SUBTITLE\]\|\[PLACEHOLDER\]\|\[PROJECT_ABOUT" src/ --include="*.tsx" --include="*.ts" -l || echo "None found" && echo "=== CONSOLE.LOG ===" && grep -r "console.log" src/ --include="*.ts" --include="*.tsx" -l || echo "None found" && echo "=== HARDCODED COLORS ===" && grep -r "color:.*#fff\|color:.*#000\|color:.*white\|color:.*black" src/components/ src/app/ --include="*.tsx" -l || echo "None found" && echo "=== EDGE RUNTIME ===" && grep -r "export const runtime" src/ --include="*.ts" --include="*.tsx" -l || echo "None found" && echo "=== MISSING USE CLIENT ===" && grep -rl "from.*next/link" src/ --include="*.tsx" | xargs grep -L "use client" || echo "None found" && echo "=== EVENT HANDLERS IN SERVER COMPONENTS ===" && grep -rn "onMouse\|onClick\|onChange\|onFocus\|onBlur" src/app/ --include="*.tsx" | grep -v "Client\." | xargs -I{} sh -c 'f="{}"; file=$(echo "$f" | cut -d: -f1); grep -q "use client" "$file" || echo "$f"' 2>/dev/null || echo "None found"
 ```
-- [ ] Zero placeholder matches
-- [ ] Dark/light mode classes present in layout
-- [ ] sitemap.ts references correct URLs
-- [ ] robots.ts exists
-- [ ] No console.log statements: `grep -r "console.log" src/ --include="*.ts" --include="*.tsx"`
+
+Fix anything found. Replace hardcoded colors with var(--text-primary) or var(--text-secondary).
+
+## Check 3: SEO spot check (only tool pages)
+For each .tsx file in src/app/(tools)/**/page.tsx, verify it contains:
+```bash
+for f in $(find src/app/\(tools\) -name "page.tsx"); do echo "=== $f ===" && grep -c "metadata\|WebAppSchema\|FaqAccordion\|Breadcrumb\|AdSlot" "$f"; done
+```
+Each page should have 5 matches (metadata + WebAppSchema + FaqAccordion + Breadcrumb + AdSlot). If any page has less than 4, read that file and fix what's missing.
+
+## Check 4: Slug format
+```bash
+grep "slug:" src/lib/constants.ts
+```
+Slugs must NOT have leading slash. "resize" not "/resize".
 
 ## Output
-If issues found: list each with file path and fix them automatically.
-If all clean: print "✅ QA PASSED — ready to deploy"
+If issues found: fix them automatically, re-run pnpm build.
+If all clean: print "QA PASSED — ready to deploy"
