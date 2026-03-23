@@ -142,12 +142,13 @@ export default function DogAgeCalculator() {
                 id="breed-size"
                 value={breedSize}
                 onChange={e => setBreedSize(e.target.value as BreedSize)}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                className="w-full border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+                style={{ backgroundColor: 'var(--bg-secondary, #0f0f16)', color: 'var(--color-text-primary, #e4e4e7)' }}
               >
-                <option value="small">Toy / Small (under 20 lbs)</option>
-                <option value="medium">Medium (21–50 lbs)</option>
-                <option value="large">Large (51–90 lbs)</option>
-                <option value="giant">Giant (91+ lbs)</option>
+                <option value="small" style={{ backgroundColor: 'var(--bg-secondary, #0f0f16)' }}>Toy / Small (under 20 lbs)</option>
+                <option value="medium" style={{ backgroundColor: 'var(--bg-secondary, #0f0f16)' }}>Medium (21–50 lbs)</option>
+                <option value="large" style={{ backgroundColor: 'var(--bg-secondary, #0f0f16)' }}>Large (51–90 lbs)</option>
+                <option value="giant" style={{ backgroundColor: 'var(--bg-secondary, #0f0f16)' }}>Giant (91+ lbs)</option>
               </select>
             </div>
           </>
